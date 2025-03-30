@@ -11,6 +11,8 @@ export const useFonts = () => {
         'Helvetica-Bold': require('../assets/fonts/Helvetica/HelveticaNeueBold.otf'),
         'Helvetica-Italic': require('../assets/fonts/Helvetica/HelveticaNeueItalic.ttf'),
         'Helvetica-Light': require('../assets/fonts/Helvetica/HelveticaNeueLight.otf'),
+        "Nova" : require("../assets/fonts/ProximaNova/ProximaNova-Regular.otf"),
+        "Nova-Bold" : require("../assets/fonts/ProximaNova/Proxima Nova Bold.otf"),
       });
       setFontsLoaded(true);
     }
