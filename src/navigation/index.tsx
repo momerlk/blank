@@ -14,8 +14,9 @@ import { NotFound } from '../screens/NotFound';
 import { useSelector } from 'react-redux';
 import { RootState, store } from '../redux';
 import { Welcome } from '../screens/onboarding/Welcome';
-import Signin from '../screens/onboarding/SignIn';
+import Signin from '../screens/onboarding/Signin';
 import PhoneNumberScreen from '../screens/onboarding/PhoneNumberEntry';
+import OTPVerification from '../screens/onboarding/OTPVerification';
 const HomeTabs = createBottomTabNavigator({
   screens: {
     Home: {
@@ -84,6 +85,13 @@ const RootStack = () => {
           title : "PhoneNumberEntry",
           headerShown : false,
         },
+      },
+      OTPVerification : {
+        screen : OTPVerification,
+        options : {
+          title : "OTP",
+          headerShown : false, 
+        }, 
       },
       NotFound: {
         screen: NotFound,
