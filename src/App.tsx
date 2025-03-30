@@ -12,7 +12,7 @@ import { store, persistor } from "./redux";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState, AppDispatch } from "./redux";
 
-import { resetOnboarding } from './redux/userSlice';
+import { completeOnboarding, resetOnboarding } from './redux/userSlice';
 
 // Load assets before the app starts
 Asset.loadAsync([
