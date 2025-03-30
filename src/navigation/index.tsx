@@ -8,8 +8,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Image } from 'react-native';
 import bell from '../assets/bell.png';
 import newspaper from '../assets/newspaper.png';
-import { Home } from '../screens/Home';
-import { Settings } from '../screens/Settings';
+import { Home } from '../screens/Home/Home';
+import { Settings } from '../screens/Settings/Settings';
 import { NotFound } from '../screens/NotFound';
 import { useSelector } from 'react-redux';
 import { RootState, store } from '../redux';
@@ -85,7 +85,7 @@ const RootStack = () => {
 
 export const Navigation = createStaticNavigation(RootStack());
 
-type RootStackParamList = StaticParamList<typeof RootStack>;
+type RootStackParamList = StaticParamList<any>;
 
 declare global {
   namespace ReactNavigation {

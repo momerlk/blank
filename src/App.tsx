@@ -2,17 +2,14 @@ import { Assets as NavigationAssets } from '@react-navigation/elements';
 import { Asset } from 'expo-asset';
 import * as SplashScreen from 'expo-splash-screen';
 import * as React from 'react';
-import { useEffect } from 'react';
 
 import { Navigation } from './navigation';
 
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { store, persistor } from "./redux";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState, AppDispatch } from "./redux";
 
-import { completeOnboarding, resetOnboarding } from './redux/userSlice';
+import { useFonts } from "./hooks/useFont";
 
 // Load assets before the app starts
 Asset.loadAsync([
@@ -24,35 +21,51 @@ Asset.loadAsync([
 SplashScreen.preventAutoHideAsync();
 
 // Separate component where you can safely use useSelector
-const AppContent: React.FC = () => {
-  // const user = useSelector((state: RootState) => state.user);
-  // const dispatch = useDispatch<AppDispatch>();
+// const AppContent: React.FC = () => {
+//   // const user = useSelector((state: RootState) => state.user);
+//   // const dispatch = useDispatch<AppDispatch>();
 
-  // useEffect(() => {
-  //   if (user.onboardingCompleted) {
-  //     dispatch(resetOnboarding());
-  //   }
-  // }, [user.onboardingCompleted, dispatch]);
+//   // useEffect(() => {
+//   //   if (user.onboardingCompleted) {
+//   //     dispatch(resetOnboarding());
+//   //   }
+//   // }, [user.onboardingCompleted, dispatch]);
 
-  return (
-    <Navigation
-      linking={{
-        enabled: 'auto',
-        prefixes: ['helloworld://'],
-      }}
-      onReady={() => {
-        SplashScreen.hideAsync();
-      }}
-    />
-  );
-};
+//   return (
+//     <Navigation
+//       linking={{
+//         enabled: 'auto',
+//         prefixes: ['helloworld://'],
+//       }}
+//       onReady={() => {
+//         SplashScreen.hideAsync();
+//       }}
+//     />
+//   );
+// };
 
 // Main App Component
 export function App() {
+  const fontsLoaded = useFonts();
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <AppContent />
+        <Navigation
+          linking={{
+            enabled: 'auto',
+            prefixes: ['helloworld://'],
+          }}
+          onReady={() => {
+            if (fontsLoaded) {
+              SplashScreen.hideAsync();
+            }
+          }}
+        />
       </PersistGate>
     </Provider>
   );
