@@ -17,6 +17,9 @@ import { Welcome } from '../screens/onboarding/Welcome';
 import Signin from '../screens/onboarding/Signin';
 import PhoneNumberScreen from '../screens/onboarding/PhoneNumberEntry';
 import OTPVerification from '../screens/onboarding/OTPVerification';
+import NameEntryScreen from '../screens/onboarding/NameEntry';
+import AgeEntryScreen from '../screens/onboarding/AgeEntry';
+import GenderSelection from '../screens/onboarding/GenderSelection';
 const HomeTabs = createBottomTabNavigator({
   screens: {
     Home: {
@@ -64,7 +67,7 @@ const RootStack = () => {
           ),
         }),
       },
-      // Onboarding screens 
+      // ---- Onboarding screens start
       Welcome : {
         screen: Welcome,
         options: {
@@ -93,6 +96,26 @@ const RootStack = () => {
           headerShown : false, 
         }, 
       },
+      NameEntry : {
+        screen : NameEntryScreen,
+        options : {
+          headerShown : false,
+        },
+      },
+      AgeEntry : {
+        screen : AgeEntryScreen,
+        options : {
+          headerShown : false,
+        },
+      },
+      GenderSelection : {
+        screen : GenderSelection,
+        options : {
+          headerShown : false,
+        },
+      },
+      // ---- Onboarding screens end
+
       NotFound: {
         screen: NotFound,
         options: {

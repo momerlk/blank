@@ -5,10 +5,11 @@ import { StyleSheet, View, StatusBar, Pressable, TextInput, Keyboard } from 'rea
 
 import React, { useEffect, useState } from "react"
 
-const logoSource = "../../assets/images/juno_icon+text.png";
 
+// TODO : add form validation
 export default function PhoneNumberScreen () {
     const navigation = useNavigation();
+    const [disabled, setDisabled] = useState(false); // disabled until input entered. 
     
 
     const [isKeyboardVisible, setKeyboardVisible] = useState(false);
@@ -69,8 +70,10 @@ export default function PhoneNumberScreen () {
                 <Text style={styles.textSmall}>
                     We'll text you a code to verify you're really you. Message and data rates may apply.
                 </Text>
-                <Pressable style={styles.button} onPress={handleNext}>
-                    <Text style={[styles.textBlackBold , {marginHorizontal : 110}]}>Next</Text>
+                <Pressable style={[styles.button, disabled ? {backgroundColor : "#2E2E2E"} : {}]} onPress={handleNext}>
+                    <Text style={[styles.textBlackBold , {marginHorizontal : 110},
+                      disabled ? {color : "#777777"} : {}
+                    ]}>Next</Text>
                 </Pressable>
                 <Pressable >
                     <Text style={styles.textRegular}>Trouble Receiving a Code?</Text>

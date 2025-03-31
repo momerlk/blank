@@ -1,15 +1,14 @@
 import { Text } from '@react-navigation/elements';
 import { useNavigation } from '@react-navigation/native';
-import { Image } from "react-native";
 import { StyleSheet, View, StatusBar, Pressable, TextInput, Keyboard } from 'react-native';
 
 import React, { useEffect, useState } from "react"
 import OTPInput from './OTPInput';
 
-const logoSource = "../../assets/images/juno_icon+text.png";
-
+// TODO : add form validation
 export default function OTPVerification () {
     const navigation = useNavigation();
+    const [disabled ,setDisabled] = useState(false)
     
 
     const [isKeyboardVisible, setKeyboardVisible] = useState(false);
@@ -35,7 +34,7 @@ export default function OTPVerification () {
     }, []);
     
     
-    const handleNext = () => navigation.navigate("OTPVerification");
+    const handleNext = () => navigation.navigate("NameEntry");
     const handleBack = () => navigation.goBack();
 
     return (
@@ -56,8 +55,10 @@ export default function OTPVerification () {
                 <Text style={styles.textSmall}>
                     We'll text you a code to verify you're really you. Message and data rates may apply.
                 </Text>
-                <Pressable style={styles.button} onPress={handleNext}>
-                    <Text style={[styles.textBlackBold , {marginHorizontal : 110}]}>Next</Text>
+                <Pressable style={[styles.button, disabled ? {backgroundColor : "#2E2E2E"} : {}]} onPress={handleNext}>
+                    <Text style={[styles.textBlackBold , {marginHorizontal : 110},
+                      disabled ? {color : "#777777"} : {}
+                    ]}>Next</Text>
                 </Pressable>
                 <Pressable >
                     <Text style={styles.textRegular}>Trouble Receiving a Code?</Text>
@@ -143,7 +144,7 @@ const styles = StyleSheet.create({
 
   leftItem : {
     alignSelf : "left" , 
-    marginHorizontal : 50
+    marginHorizontal : 30
 
   },
   backSign : {
