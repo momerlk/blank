@@ -44,14 +44,13 @@ export default function GenderSelection () {
               <Text style={styles.backSign}>{"← back"}</Text>
             </Pressable>
             <Text style={styles.text}>
-                <Text style={styles.textBold}>What's your first name?</Text>
+                <Text style={styles.textBold}>What's your gender?</Text>
             </Text>
 
 
-            <TextInput
-              style={styles.input}
-              
-            />
+            <Pressable style={[styles.buttonOutline]} onPress={handleNext}>
+                    <Text style={[styles.textBold , {marginHorizontal : 110, fontSize : 25}]}>Male</Text>
+                </Pressable>
 
             {/* Positioned at the bottom */}
             {!isKeyboardVisible ? 
@@ -76,7 +75,6 @@ const styles = StyleSheet.create({
     flex: 1, // Ensures the button can be pushed to the bottom
     paddingTop: 50,
     backgroundColor: "#121212",
-    alignItems: 'center',
     gap: 10,
   },
 
@@ -105,12 +103,12 @@ const styles = StyleSheet.create({
     color: "white",
     fontFamily: "Nova",
     fontSize: 38,
-    marginHorizontal: 0,
+    marginLeft: 20,
   },
   textBold: {
     color: "white",
     fontFamily: "Nova-Bold",
-    fontSize: 38,
+    fontSize: 33,
   },
   textRegular : {
     color: "white",
@@ -147,7 +145,7 @@ const styles = StyleSheet.create({
 
   leftItem : {
     alignSelf : "left" , 
-    marginHorizontal : 50
+    marginHorizontal : 20
 
   },
   backSign : {
@@ -162,6 +160,14 @@ const styles = StyleSheet.create({
     padding : 15,
     borderRadius : 50,
     marginVertical : 10,
+  },
+  buttonOutline : {
+    borderColor : "gray",
+    borderWidth : 1,
+    padding : 15,
+    borderRadius : 50,
+    marginVertical : 20,
+    marginHorizontal : 35,
   },
   buttonContainer: {
     position: "absolute", // Positions it at the bottom
