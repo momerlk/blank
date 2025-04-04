@@ -1,9 +1,23 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { View, TextInput, Text, StyleSheet } from "react-native";
+import { validateDOB } from "./helper";
 
-export default function DOBInput() {
+interface DOBInputProps {
+  onValidation: (isValid: boolean) => void;
+  onDOBChange: (dob: string[]) => void;
+}
+
+export default function DOBInput({ onValidation, onDOBChange }: DOBInputProps) {
   const [dob, setDob] = useState(["", "", "/", "", "", "/", "", "", "", ""]);
+  const [error, setError] = useState<string | undefined>();
   const inputs = useRef<Array<TextInput | null>>([]);
+
+  useEffect(() => {
+    const validation = validateDOB(dob);
+    onValidation(validation.isValid);
+    setError(validation.error);
+    onDOBChange(dob);
+  }, [dob, onValidation, onDOBChange]);
 
   const handleChange = (text: string, index: number) => {
     if (/^\d$/.test(text)) {  // Only allow digits
@@ -31,24 +45,27 @@ export default function DOBInput() {
   };
 
   return (
-    <View style={styles.container}>
-      {dob.map((digit, index) =>
-        digit === "/" ? (
-          <Text key={index} style={styles.slash}>/</Text>
-        ) : (
-          <TextInput
-            key={index}
-            ref={(el) => (inputs.current[index] = el)}
-            style={styles.input}
-            keyboardType="numeric"
-            maxLength={1}
-            value={digit}
-            onChangeText={(text) => handleChange(text, index)}
-            placeholder={index < 2 ? "D" : index < 5 ? "M" : "Y"}
-            placeholderTextColor="gray"
-          />
-        )
-      )}
+    <View>
+      <View style={styles.container}>
+        {dob.map((digit, index) =>
+          digit === "/" ? (
+            <Text key={index} style={styles.slash}>/</Text>
+          ) : (
+            <TextInput
+              key={index}
+              ref={(el) => (inputs.current[index] = el)}
+              style={styles.input}
+              keyboardType="numeric"
+              maxLength={1}
+              value={digit}
+              onChangeText={(text) => handleChange(text, index)}
+              placeholder={index < 2 ? "D" : index < 5 ? "M" : "Y"}
+              placeholderTextColor="gray"
+            />
+          )
+        )}
+      </View>
+      {error && <Text style={styles.error}>{error}</Text>}
     </View>
   );
 }
@@ -75,5 +92,12 @@ const styles = StyleSheet.create({
     fontSize: 24,
     color: "gray",
     marginHorizontal: 5,
+  },
+  error: {
+    color: "#ff6b6b",
+    fontFamily: "Nova",
+    fontSize: 14,
+    marginTop: 10,
+    textAlign: "center",
   },
 });
