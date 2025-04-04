@@ -38,7 +38,7 @@ export default function GenderSelection () {
     const handleBack = () => navigation.goBack();
 
     return (
-        <View style={styles.container}>
+        <View style={styles.container}  >
             <StatusBar backgroundColor="#121212" />
             <Pressable style={styles.leftItem} onPress={handleBack}>
               <Text style={styles.backSign}>{"← back"}</Text>
@@ -49,8 +49,16 @@ export default function GenderSelection () {
 
 
             <Pressable style={[styles.buttonOutline]} onPress={handleNext}>
-                    <Text style={[styles.textBold , {marginHorizontal : 110, fontSize : 25}]}>Male</Text>
-                </Pressable>
+                  <Text style={styles.buttonOutlineText}>Male</Text>
+            </Pressable>
+
+            <Pressable style={[styles.buttonOutline]} onPress={handleNext}>
+                  <Text style={styles.buttonOutlineText}>Female</Text>
+            </Pressable>
+
+            <Pressable style={[styles.buttonOutline]} onPress={handleNext}>
+                  <Text style={styles.buttonOutlineText}>Other</Text>
+            </Pressable>
 
             {/* Positioned at the bottom */}
             {!isKeyboardVisible ? 
@@ -164,10 +172,16 @@ const styles = StyleSheet.create({
   buttonOutline : {
     borderColor : "gray",
     borderWidth : 1,
-    padding : 15,
+    paddingVertical : 15,
     borderRadius : 50,
-    marginVertical : 20,
+    marginVertical : 15,
     marginHorizontal : 35,
+  },
+  buttonOutlineText : {
+    color: "white",
+    fontFamily: "Nova-Bold",
+    fontSize: 25,
+    textAlign : "center",
   },
   buttonContainer: {
     position: "absolute", // Positions it at the bottom
