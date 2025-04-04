@@ -36,7 +36,7 @@ export default function GenderSelection() {
 
     const handleNext = () => {
         if (validateGenderSelection(selectedGender)) {
-            navigation.navigate("LocationRequest");
+            navigation.navigate("ProfilePictureEntry");
         }
     };
     

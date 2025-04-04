@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { LocationData } from '../screens/onboarding/LocationRequest/types';
+import { LocationObject } from 'expo-location';
 
 interface UserState {
   phoneNumber: string;
@@ -7,9 +7,10 @@ interface UserState {
   lastName: string;
   age: number;
   gender: string;
-  location: LocationData | null;
+  location: LocationObject | null;
   interests: string[];
   onboardingCompleted: boolean;
+  profilePicture: string | null;
 }
 
 const initialState: UserState = {
@@ -21,6 +22,7 @@ const initialState: UserState = {
   location: null,
   interests: [],
   onboardingCompleted: false,
+  profilePicture: null,
 };
 
 const userSlice = createSlice({
@@ -42,11 +44,14 @@ const userSlice = createSlice({
     setGender: (state, action: PayloadAction<string>) => {
       state.gender = action.payload;
     },
-    setLocation: (state, action: PayloadAction<LocationData>) => {
+    setLocation: (state, action: PayloadAction<LocationObject>) => {
       state.location = action.payload;
     },
     setInterests: (state, action: PayloadAction<string[]>) => {
       state.interests = action.payload;
+    },
+    setProfilePicture: (state, action: PayloadAction<string>) => {
+      state.profilePicture = action.payload;
     },
     completeOnboarding: (state) => {
       state.onboardingCompleted = true;
@@ -62,6 +67,7 @@ export const {
   setGender,
   setLocation,
   setInterests,
+  setProfilePicture,
   completeOnboarding,
 } = userSlice.actions;
 

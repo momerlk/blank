@@ -24,6 +24,7 @@ import LocationRequest from '../screens/onboarding/LocationRequest';
 import InterestsSelection from '../screens/onboarding/InterestsSelection';
 import FinalInterests from '../screens/onboarding/FinalInterests';
 import PasswordSetup from '../screens/onboarding/PasswordSetup';
+import ProfilePictureEntryScreen from '../screens/onboarding/ProfilePictureEntry';
 
 const HomeTabs = createBottomTabNavigator({
   screens: {
@@ -37,7 +38,7 @@ const HomeTabs = createBottomTabNavigator({
 });
 
 const RootStack = () => {
-  let initialRouteName = "Welcome";
+  let initialRouteName = "HomeTabs";
   if (store.getState().user.onboardingCompleted) {
     initialRouteName = "Welcome";
   }
@@ -113,6 +114,12 @@ const RootStack = () => {
         screen: GenderSelection,
         options: {
           headerShown: false,
+        },
+      },
+      ProfilePictureEntry : {
+        screen : ProfilePictureEntryScreen,
+        options : {
+          headerShown : false,
         },
       },
       LocationRequest: {
