@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, Button } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
-import { setGender } from '../../redux/userSlice';
+import { setGender } from '../../../redux/userSlice';
 
 const Signin: React.FC = () => {
   const dispatch = useDispatch();

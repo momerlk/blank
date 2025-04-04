@@ -3,7 +3,7 @@ import { useNavigation } from '@react-navigation/native';
 import { Image } from "react-native";
 import { StyleSheet, View, StatusBar, Pressable } from 'react-native';
 
-const logoSource = "../../assets/images/juno_icon+text.png";
+const logoSource = "../../../assets/images/juno_icon+text.png";
 
 export function Welcome() {
     const navigation = useNavigation();

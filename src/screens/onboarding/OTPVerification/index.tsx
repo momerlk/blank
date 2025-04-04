@@ -34,7 +34,7 @@ export default function OTPVerification () {
     }, []);
     
     
-    const handleNext = () => navigation.navigate("NameEntry");
+    const handleNext = () => navigation.navigate("PasswordSetup");
     const handleBack = () => navigation.goBack();
 
     return (

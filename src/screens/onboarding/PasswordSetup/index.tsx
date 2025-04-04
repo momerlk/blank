@@ -2,10 +2,11 @@ import { Text } from '@react-navigation/elements';
 import { useNavigation } from '@react-navigation/native';
 import { StyleSheet, View, StatusBar, Pressable, TextInput } from 'react-native';
 import { useDispatch } from 'react-redux';
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { validatePassword } from './helper';
 import { PasswordState } from './types';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Keyboard } from 'react-native';
 
 export default function PasswordSetup() {
     const navigation = useNavigation();
@@ -16,6 +17,28 @@ export default function PasswordSetup() {
         showPassword: false,
         showConfirmPassword: false
     });
+
+    const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+
+    useEffect(() => {
+      const keyboardDidShowListener = Keyboard.addListener(
+        "keyboardDidShow",
+        () => {
+          setKeyboardVisible(true);
+        }
+      );
+      const keyboardDidHideListener = Keyboard.addListener(
+        "keyboardDidHide",
+        () => {
+          setKeyboardVisible(false);
+        }
+      );
+
+      return () => {
+        keyboardDidShowListener.remove();
+        keyboardDidHideListener.remove();
+      };
+    }, []);
 
     const handleBack = () => navigation.goBack();
 
@@ -63,7 +86,7 @@ export default function PasswordSetup() {
                         onChangeText={(text) => setState(prev => ({ ...prev, password: text, error: null }))}
                     />
                     <Pressable onPress={togglePasswordVisibility} style={styles.eyeIcon}>
-                        <Icon
+                        <MaterialCommunityIcons
                             name={state.showPassword ? "eye-off" : "eye"}
                             size={24}
                             color="#777777"
@@ -81,7 +104,7 @@ export default function PasswordSetup() {
                         onChangeText={(text) => setState(prev => ({ ...prev, confirmPassword: text, error: null }))}
                     />
                     <Pressable onPress={toggleConfirmPasswordVisibility} style={styles.eyeIcon}>
-                        <Icon
+                        <MaterialCommunityIcons
                             name={state.showConfirmPassword ? "eye-off" : "eye"}
                             size={24}
                             color="#777777"
@@ -90,6 +113,7 @@ export default function PasswordSetup() {
                 </View>
             </View>
 
+            {!isKeyboardVisible ? 
             <View style={styles.buttonContainer}>
                 {state.error && <Text style={styles.errorText}>{state.error}</Text>}
                 <Text style={styles.textSmall}>
@@ -104,6 +128,8 @@ export default function PasswordSetup() {
                     </Text>
                 </Pressable>
             </View>
+            : <></>}
+
         </View>
     );
 }

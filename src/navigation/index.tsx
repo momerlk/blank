@@ -37,8 +37,8 @@ const HomeTabs = createBottomTabNavigator({
 });
 
 const RootStack = () => {
-  let initialRouteName = "HomeTabs";
-  if (!store.getState().user.onboardingCompleted) {
+  let initialRouteName = "Welcome";
+  if (store.getState().user.onboardingCompleted) {
     initialRouteName = "Welcome";
   }
   return createNativeStackNavigator({
