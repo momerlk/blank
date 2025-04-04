@@ -34,7 +34,7 @@ export default function GenderSelection () {
     }, []);
     
     
-    const handleNext = () => navigation.navigate("AgeEntry");
+    const handleNext = () => navigation.navigate("LocationRequest");
     const handleBack = () => navigation.goBack();
 
     return (

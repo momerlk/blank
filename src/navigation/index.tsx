@@ -20,22 +20,17 @@ import OTPVerification from '../screens/onboarding/OTPVerification';
 import NameEntryScreen from '../screens/onboarding/NameEntry';
 import AgeEntryScreen from '../screens/onboarding/AgeEntry';
 import GenderSelection from '../screens/onboarding/GenderSelection';
+import LocationRequest from '../screens/onboarding/LocationRequest';
+import InterestsSelection from '../screens/onboarding/InterestsSelection';
+import FinalInterests from '../screens/onboarding/FinalInterests';
+import PasswordSetup from '../screens/onboarding/PasswordSetup';
+
 const HomeTabs = createBottomTabNavigator({
   screens: {
     Home: {
       screen: Home,
       options: {
         title: 'Feed',
-        // tabBarIcon: ({ color, size }) => (
-        //   <Image
-        //     source={newspaper}
-        //     tintColor={color}
-        //     style={{
-        //       width: size,
-        //       height: size,
-        //     }}
-        //   />
-        // ),
       },
     },
   },
@@ -68,54 +63,77 @@ const RootStack = () => {
         }),
       },
       // ---- Onboarding screens start
-      Welcome : {
+      Welcome: {
         screen: Welcome,
         options: {
           title: 'Welcome',
           headerShown: false,
         },
       },
-      Signin : {
-        screen : Signin, 
-        options : {
-          title : "Signin",
-          headerShown : false,
+      Signin: {
+        screen: Signin,
+        options: {
+          title: "Signin",
+          headerShown: false,
         },
       },
-      PhoneNumberEntry : {
-        screen : PhoneNumberScreen,
-        options : {
-          title : "PhoneNumberEntry",
-          headerShown : false,
+      PhoneNumberEntry: {
+        screen: PhoneNumberScreen,
+        options: {
+          title: "PhoneNumberEntry",
+          headerShown: false,
         },
       },
-      OTPVerification : {
-        screen : OTPVerification,
-        options : {
-          title : "OTP",
-          headerShown : false, 
-        }, 
-      },
-      NameEntry : {
-        screen : NameEntryScreen,
-        options : {
-          headerShown : false,
+      OTPVerification: {
+        screen: OTPVerification,
+        options: {
+          title: "OTP",
+          headerShown: false,
         },
       },
-      AgeEntry : {
-        screen : AgeEntryScreen,
-        options : {
-          headerShown : false,
+      PasswordSetup: {
+        screen: PasswordSetup,
+        options: {
+          headerShown: false,
         },
       },
-      GenderSelection : {
-        screen : GenderSelection,
-        options : {
-          headerShown : false,
+      NameEntry: {
+        screen: NameEntryScreen,
+        options: {
+          headerShown: false,
+        },
+      },
+      AgeEntry: {
+        screen: AgeEntryScreen,
+        options: {
+          headerShown: false,
+        },
+      },
+      GenderSelection: {
+        screen: GenderSelection,
+        options: {
+          headerShown: false,
+        },
+      },
+      LocationRequest: {
+        screen: LocationRequest,
+        options: {
+          headerShown: false,
+        },
+      },
+      InterestsSelection: {
+        screen: InterestsSelection,
+        options: {
+          headerShown: false,
+        },
+      },
+      FinalInterests: {
+        screen: FinalInterests,
+        options: {
+          headerShown: false,
         },
       },
       // ---- Onboarding screens end
-
       NotFound: {
         screen: NotFound,
         options: {
@@ -128,7 +146,6 @@ const RootStack = () => {
     },
   });
 }
-
 
 export const Navigation = createStaticNavigation(RootStack());
 

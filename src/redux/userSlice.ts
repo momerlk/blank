@@ -1,24 +1,25 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { LocationData } from '../screens/onboarding/LocationRequest/types';
 
 interface UserState {
   phoneNumber: string;
-  name: string;
+  firstName: string;
+  lastName: string;
   age: number;
   gender: string;
+  location: LocationData | null;
   interests: string[];
-  location: string;
-  password: string;
   onboardingCompleted: boolean;
 }
 
 const initialState: UserState = {
   phoneNumber: '',
-  name: '',
+  firstName: '',
+  lastName: '',
   age: 0,
   gender: '',
+  location: null,
   interests: [],
-  location: '',
-  password: '',
   onboardingCompleted: false,
 };
 
@@ -26,46 +27,42 @@ const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    setPhoneNumber(state, action: PayloadAction<string>) {
+    setPhoneNumber: (state, action: PayloadAction<string>) => {
       state.phoneNumber = action.payload;
     },
-    setName(state, action: PayloadAction<string>) {
-      state.name = action.payload;
+    setFirstName: (state, action: PayloadAction<string>) => {
+      state.firstName = action.payload;
     },
-    setAge(state, action: PayloadAction<number>) {
+    setLastName: (state, action: PayloadAction<string>) => {
+      state.lastName = action.payload;
+    },
+    setAge: (state, action: PayloadAction<number>) => {
       state.age = action.payload;
     },
-    setGender(state, action: PayloadAction<string>) {
+    setGender: (state, action: PayloadAction<string>) => {
       state.gender = action.payload;
     },
-    setInterests(state, action: PayloadAction<string[]>) {
-      state.interests = action.payload;
-    },
-    setLocation(state, action: PayloadAction<string>) {
+    setLocation: (state, action: PayloadAction<LocationData>) => {
       state.location = action.payload;
     },
-    setPassword(state, action: PayloadAction<string>) {
-      state.password = action.payload;
+    setInterests: (state, action: PayloadAction<string[]>) => {
+      state.interests = action.payload;
     },
-    completeOnboarding(state) {
+    completeOnboarding: (state) => {
       state.onboardingCompleted = true;
     },
-    resetOnboarding(state){
-      state.onboardingCompleted = false;
-    }
   },
 });
 
 export const {
   setPhoneNumber,
-  setName,
+  setFirstName,
+  setLastName,
   setAge,
   setGender,
-  setInterests,
   setLocation,
-  setPassword,
+  setInterests,
   completeOnboarding,
-  resetOnboarding
 } = userSlice.actions;
 
 export default userSlice.reducer;
