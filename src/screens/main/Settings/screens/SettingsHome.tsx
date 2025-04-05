@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-nati
 import { MaterialCommunityIcons, Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
-import { resetUser } from '../../../../redux/slices/userSlice';
+import { resetUser } from '../../../../redux/userSlice';
 import { StatusBar } from 'expo-status-bar';
 
 const SettingItem = ({ icon, title, onPress }: { icon: string; title: string; onPress: () => void }) => (
