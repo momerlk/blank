@@ -3,7 +3,7 @@ import { useNavigation } from '@react-navigation/native';
 import { StyleSheet, View, StatusBar, Pressable, ScrollView } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useState } from "react";
-import { setInterests, completeOnboarding } from '../../../redux/userSlice';
+import { setInterests, completeOnboarding, setOnboardingCompleted } from '../../../redux/userSlice';
 import { validateFinalInterests } from './helper';
 import { FinalInterestState } from './types';
 import { RootState } from '../../../redux';
@@ -43,8 +43,8 @@ export default function FinalInterests() {
         }
 
         dispatch(setInterests(state.selectedInterests));
-        dispatch(completeOnboarding());
-        navigation.navigate("HomeTabs");
+        dispatch(setOnboardingCompleted(true));
+        navigation.navigate("HomeTabs" as never);
     };
 
     const availableInterests = interestOptions.filter(
