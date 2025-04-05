@@ -1,18 +1,27 @@
+// navigation/index.tsx or AppNavigator.tsx
+
+import React from 'react';
+import { NavigationContainer, DarkTheme, TabRouter } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { HeaderButton, Text } from '@react-navigation/elements';
-import {
-  createStaticNavigation,
-  StaticParamList,
-} from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Image } from 'react-native';
-import bell from '../assets/bell.png';
-import newspaper from '../assets/newspaper.png';
-import { Home } from '../screens/main/Home/Home';
-import { Settings } from '../screens/main/Settings/Settings';
-import { NotFound } from '../screens/NotFound';
+
+// icons
+import Feather from '@expo/vector-icons/Feather';
+import Foundation from '@expo/vector-icons/Foundation';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+
+
 import { useSelector } from 'react-redux';
 import { RootState, store } from '../redux';
+
+// main screens
+import { Home } from '../screens/main/Home/Home';
+import { Settings, SettingsStack } from '../screens/main/Settings/Settings';
+import { NotFound } from '../screens/NotFound';
+
+// onboarding screens
 import { Welcome } from '../screens/onboarding/Welcome';
 import Signin from '../screens/onboarding/Signin';
 import PhoneNumberScreen from '../screens/onboarding/PhoneNumberEntry';
@@ -26,140 +35,141 @@ import FinalInterests from '../screens/onboarding/FinalInterests';
 import PasswordSetup from '../screens/onboarding/PasswordSetup';
 import ProfilePictureEntryScreen from '../screens/onboarding/ProfilePictureEntry';
 
-const HomeTabs = createBottomTabNavigator({
-  screens: {
-    Home: {
-      screen: Home,
-      options: {
-        title: 'Feed',
-      },
-    },
-  },
-});
+import { Image } from "react-native";
+import Icon from '../components/Icon';
+import { Profile } from '../screens/main/Profile';
 
-const RootStack = () => {
-  let initialRouteName = "HomeTabs";
-  if (store.getState().user.onboardingCompleted) {
-    initialRouteName = "Welcome";
-  }
-  return createNativeStackNavigator({
-    initialRouteName: initialRouteName,
-    screens: {
-      HomeTabs: {
-        screen: HomeTabs,
-        options: {
-          title: 'Home',
-          headerShown: false,
+const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
+
+function HomeTabs() {
+  const user = useSelector((state: RootState) => state.user);
+  
+  return (
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        headerShown: false,
+        tabBarStyle: {
+          backgroundColor: 'black',
+          borderTopColor: '#222',
+          paddingTop : 10,
         },
-      },
-      Settings: {
-        screen: Settings,
-        options: ({ navigation }) => ({
-          presentation: 'modal',
-          headerRight: () => (
-            <HeaderButton onPress={navigation.goBack}>
-              <Text>Close</Text>
-            </HeaderButton>
-          ),
-        }),
-      },
-      // ---- Onboarding screens start
-      Welcome: {
-        screen: Welcome,
-        options: {
-          title: 'Welcome',
-          headerShown: false,
+        tabBarShowLabel: false,
+        tabBarActiveTintColor: '#fff',
+        tabBarInactiveTintColor: '#999',
+      })}
+    >
+      <Tab.Screen name="Home" component={Home} options={{
+         tabBarIcon: Icon("home"),
+      }}/>
+      <Tab.Screen name="Profile" component={Profile} options={{
+        tabBarIcon: ({ color, focused , size}) => {
+
+          if (user.profilePicture !== null) {
+            return <Image 
+            source={{ uri: user.profilePicture }} 
+            style={{ width: size, height: size, borderRadius : 100}} />;
+          }
+
+
+          return <MaterialCommunityIcons name={"account-cog"} size={size} color={color} />
         },
-      },
-      Signin: {
-        screen: Signin,
-        options: {
-          title: "Signin",
-          headerShown: false,
-        },
-      },
-      PhoneNumberEntry: {
-        screen: PhoneNumberScreen,
-        options: {
-          title: "PhoneNumberEntry",
-          headerShown: false,
-        },
-      },
-      OTPVerification: {
-        screen: OTPVerification,
-        options: {
-          title: "OTP",
-          headerShown: false,
-        },
-      },
-      PasswordSetup: {
-        screen: PasswordSetup,
-        options: {
-          headerShown: false,
-        },
-      },
-      NameEntry: {
-        screen: NameEntryScreen,
-        options: {
-          headerShown: false,
-        },
-      },
-      AgeEntry: {
-        screen: AgeEntryScreen,
-        options: {
-          headerShown: false,
-        },
-      },
-      GenderSelection: {
-        screen: GenderSelection,
-        options: {
-          headerShown: false,
-        },
-      },
-      ProfilePictureEntry : {
-        screen : ProfilePictureEntryScreen,
-        options : {
-          headerShown : false,
-        },
-      },
-      LocationRequest: {
-        screen: LocationRequest,
-        options: {
-          headerShown: false,
-        },
-      },
-      InterestsSelection: {
-        screen: InterestsSelection,
-        options: {
-          headerShown: false,
-        },
-      },
-      FinalInterests: {
-        screen: FinalInterests,
-        options: {
-          headerShown: false,
-        },
-      },
-      // ---- Onboarding screens end
-      NotFound: {
-        screen: NotFound,
-        options: {
-          title: '404',
-        },
-        linking: {
-          path: '*',
-        },
-      },
-    },
-  });
+      }}/>
+    </Tab.Navigator>
+  );
 }
 
-export const Navigation = createStaticNavigation(RootStack());
+function RootStackNavigator() {
+  const onboardingCompleted = store.getState().user.onboardingCompleted;
 
-type RootStackParamList = StaticParamList<any>;
+  return (
+    <NavigationContainer theme={DarkTheme}>
+      <Stack.Navigator initialRouteName={onboardingCompleted ? 'HomeTabs' : 'Welcome'}>
+        <Stack.Screen 
+            name="HomeTabs" 
+            component={HomeTabs} 
+            options={{ headerShown: false }} 
+        />
 
-declare global {
-  namespace ReactNavigation {
-    interface RootParamList extends RootStackParamList {}
-  }
+        <Stack.Screen 
+            name="Settings" 
+            component={SettingsStack} 
+            options={{ headerShown: true }} 
+        />
+
+        {/* Onboarding screens start */}
+
+        <Stack.Screen 
+            name="Welcome" 
+            component={Welcome} 
+            options={{ headerShown: false }} 
+        />
+        <Stack.Screen 
+            name="Signin" 
+            component={Signin} 
+            options={{ headerShown: false }} 
+        />
+        <Stack.Screen 
+            name="PhoneNumberEntry" 
+            component={PhoneNumberScreen} 
+            options={{ headerShown: false }} 
+        />
+        <Stack.Screen  
+            name="OTPVerification" 
+            component={OTPVerification} 
+            options={{ headerShown: false }} 
+        />
+        <Stack.Screen 
+            name="PasswordSetup" 
+            component={PasswordSetup} 
+            options={{ headerShown: false }} 
+        />
+        <Stack.Screen 
+            name="NameEntry" 
+            component={NameEntryScreen} 
+            options={{ headerShown: false }} 
+        />
+        <Stack.Screen  
+            name="AgeEntry" 
+            component={AgeEntryScreen} 
+            options={{ headerShown: false }} 
+        />
+        <Stack.Screen 
+            name="GenderSelection" 
+            component={GenderSelection} 
+            options={{ headerShown: false }} 
+        />
+        <Stack.Screen 
+            name="ProfilePictureEntry" 
+            component={ProfilePictureEntryScreen} 
+            options={{ headerShown: false }} 
+        />
+        <Stack.Screen 
+            name="LocationRequest" 
+            component={LocationRequest} 
+            options={{ headerShown: false }} 
+        />
+        <Stack.Screen 
+            name="InterestsSelection" 
+            component={InterestsSelection} 
+            options={{ headerShown: false }} 
+        />
+        <Stack.Screen 
+            name="FinalInterests" 
+            component={FinalInterests} 
+            options={{ headerShown: false }} 
+        />
+
+        {/* Onboarding screens end */}
+
+        <Stack.Screen 
+            name="NotFound" 
+            component={NotFound} 
+            options={{ title: '404' }} 
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
 }
+
+export default RootStackNavigator;

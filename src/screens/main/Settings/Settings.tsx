@@ -1,23 +1,21 @@
-import { Text } from '@react-navigation/elements';
-import { StyleSheet, View } from 'react-native';
+import React from 'react';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { SettingsHome } from './screens/SettingsHome';
+import { AccountSettings } from './screens/AccountSettings';
+import { MyOrders } from './screens/MyOrders';
+import { AboutUs } from './screens/AboutUs';
+import { PrivacyPolicy } from './screens/PrivacyPolicy';
 
-export function Settings() {
+const Stack = createNativeStackNavigator();
+
+export function SettingsStack() {
   return (
-    <View style={styles.container}>
-      <Text>Settings Screen</Text>
-    </View>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="SettingsHome" component={SettingsHome} />
+      <Stack.Screen name="AccountSettings" component={AccountSettings} />
+      <Stack.Screen name="MyOrders"component={MyOrders} />
+      <Stack.Screen name="AboutUs" component={AboutUs} />
+      <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
+    </Stack.Navigator>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: 10,
-  },
-  row: {
-    flexDirection: 'row',
-    gap: 10,
-  },
-});

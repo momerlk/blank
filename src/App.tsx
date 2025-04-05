@@ -1,71 +1,56 @@
-import { Assets as NavigationAssets } from '@react-navigation/elements';
 import { Asset } from 'expo-asset';
 import * as SplashScreen from 'expo-splash-screen';
 import * as React from 'react';
+import { useEffect, useState } from 'react';
 
-import { Navigation } from './navigation';
+import RootStackNavigator from './navigation'; // changed from Navigation
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import { store, persistor } from './redux';
+import { useFonts } from './hooks/useFont';
+import { Assets as NavigationAssets } from '@react-navigation/elements';
 
-import { Provider } from "react-redux";
-import { PersistGate } from "redux-persist/integration/react";
-import { store, persistor } from "./redux";
-
-import { useFonts } from "./hooks/useFont";
-
-// Load assets before the app starts
-Asset.loadAsync([
-  ...NavigationAssets,
-  require('./assets/newspaper.png'),
-  require('./assets/bell.png'),
-]);
-
+// Prevent splash screen from auto-hiding until assets and fonts are ready
 SplashScreen.preventAutoHideAsync();
 
-// Separate component where you can safely use useSelector
-// const AppContent: React.FC = () => {
-//   // const user = useSelector((state: RootState) => state.user);
-//   // const dispatch = useDispatch<AppDispatch>();
-
-//   // useEffect(() => {
-//   //   if (user.onboardingCompleted) {
-//   //     dispatch(resetOnboarding());
-//   //   }
-//   // }, [user.onboardingCompleted, dispatch]);
-
-//   return (
-//     <Navigation
-//       linking={{
-//         enabled: 'auto',
-//         prefixes: ['helloworld://'],
-//       }}
-//       onReady={() => {
-//         SplashScreen.hideAsync();
-//       }}
-//     />
-//   );
-// };
-
-// Main App Component
 export function App() {
+  const [appIsReady, setAppIsReady] = useState(false);
   const fontsLoaded = useFonts();
 
-  if (!fontsLoaded) {
+  useEffect(() => {
+    async function prepare() {
+      try {
+        await Asset.loadAsync([
+          ...NavigationAssets,
+          require('./assets/newspaper.png'),
+          require('./assets/bell.png'),
+        ]);
+      } catch (e) {
+        console.warn('Asset loading error:', e);
+      } finally {
+        if (fontsLoaded) {
+          setAppIsReady(true);
+        }
+      }
+    }
+
+    prepare();
+  }, [fontsLoaded]);
+
+  useEffect(() => {
+    if (appIsReady) {
+      SplashScreen.hideAsync();
+    }
+  }, [appIsReady]);
+
+  if (!appIsReady) {
     return null;
   }
 
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <Navigation
-          linking={{
-            enabled: 'auto',
-            prefixes: ['helloworld://'],
-          }}
-          onReady={() => {
-            if (fontsLoaded) {
-              SplashScreen.hideAsync();
-            }
-          }}
-        />
+        <RootStackNavigator />
       </PersistGate>
     </Provider>
   );
