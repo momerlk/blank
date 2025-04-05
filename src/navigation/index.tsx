@@ -5,6 +5,9 @@ import { NavigationContainer, DarkTheme, TabRouter } from '@react-navigation/nat
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+import { LinearGradient } from 'expo-linear-gradient';
+
+
 // icons
 import Feather from '@expo/vector-icons/Feather';
 import Foundation from '@expo/vector-icons/Foundation';
@@ -39,6 +42,8 @@ import { Image } from "react-native";
 import Icon from '../components/Icon';
 import { Profile } from '../screens/main/Profile';
 
+
+
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
@@ -59,22 +64,55 @@ function HomeTabs() {
         tabBarInactiveTintColor: '#999',
       })}
     >
-      <Tab.Screen name="Home" component={Home} options={{
-         tabBarIcon: Icon("home"),
-      }}/>
-      <Tab.Screen name="Profile" component={Profile} options={{
-        tabBarIcon: ({ color, focused , size}) => {
+      <Tab.Screen 
+        name="Home" 
+        component={Home} 
+        options={{
+          tabBarIcon: Icon("home"),
+        }}
+      />
+      
+      <Tab.Screen 
+        name="Profile" 
+        component={Profile} 
+        options={{
+          tabBarIcon: ({ color, focused, size }) => {
+            if (user.profilePicture !== null) {
+              const image = (
+                <Image
+                  source={{ uri: user.profilePicture }}
+                  style={{
+                    width: size,
+                    height: size,
+                    borderRadius: size / 2,
+                  }}
+                />
+              );
 
-          if (user.profilePicture !== null) {
-            return <Image 
-            source={{ uri: user.profilePicture }} 
-            style={{ width: size, height: size, borderRadius : 100}} />;
-          }
+              if (focused) {
+                return (
+                  // white outline but can be changed to a gradient later
+                  <LinearGradient
+                    colors={['#fff', '#fff']}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 1 }}
+                    style={{
+                      padding: 1.5,
+                      borderRadius: size,
+                    }}
+                  >
+                    {image}
+                  </LinearGradient>
+                );
+              }
 
+              return image;
+            }
 
-          return <MaterialCommunityIcons name={"account-cog"} size={size} color={color} />
-        },
-      }}/>
+            return <MaterialCommunityIcons name="account-cog" size={size} color={color} />;
+          },
+        }}
+      />
     </Tab.Navigator>
   );
 }
