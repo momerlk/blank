@@ -132,7 +132,7 @@ function RootStackNavigator() {
         <Stack.Screen 
             name="Settings" 
             component={SettingsStack} 
-            options={{ headerShown: true }} 
+            options={{ headerShown: false }} 
         />
 
         {/* Onboarding screens start */}
